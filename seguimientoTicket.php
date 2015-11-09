@@ -47,7 +47,46 @@
 <body>
 <?php
 session_start();
+
 $id = $_SESSION["usuario"];
+$user = $_SESSION["idUsuario"];
+
+
+if (isset($_POST['folio'])) {
+	$folio = $_POST["folio"];
+
+}else{
+	$folio = $_SESSION['folio'];
+}
+
+
+
+						$coneccion = mysql_connect('127.0.0.1', 'root', '');
+						mysql_select_db('crm') or die("Error conectando a la BBDD"); 
+
+						$sql = mysql_query("SELECT *
+						FROM tickets 
+						INNER JOIN usuario 
+						WHERE tickets.usuarioT = usuario.idUsuario
+						AND tickets.folio = ". $folio ." ") or die (mysql_error());
+
+						$datos = mysql_fetch_array($sql);
+						//Variables del Usuario que levanto el ticket
+						$idUsuario = $datos["idUsuario"];
+						$username = $datos["usuario"];
+						$nombre = $datos["nombre"] . " " . $datos["apellidoP"] . " " . $datos["apellidoM"];	
+						$area = $datos["area"];
+						$correo = $datos["correo"];
+						
+						//Variables del ticket	
+						$folioTicket = $datos["folio"];
+						$fechainicio = $datos["fechaInicio"] . " " . $datos["horaInicio"];
+						$fechaFinal = $datos["fechaFin"] . " " . $datos["horaFin"];
+						$tipo = $datos["tipo"];
+						$descripcion = $datos["descripcion"];
+						$status = $datos["estado"];
+
+						mysql_close();
 
 
 
@@ -344,118 +383,132 @@ $id = $_SESSION["usuario"];
 
 	<br>
 	<!-- inicio de la app-->
-	<h2 align="center">Seguimiento al Ticket: #folio</h2><br>
-	
-			<div class="row-fluid sortable">
-				<div class="box span12">
+	<h2 align="center">Seguimiento al Ticket: #<?php echo $folioTicket;  ?></h2><br>
+	<form method="POST" action="acciones/cerrarTicket.php">
+	<a title="Regresar" class="btn success" href="menuTickets.php"><span class="icon-arrow-left"></span></a>
+		<input type="hidden" name="ticket" value=<?php echo '"'.$folio.'"'; ?>>
+		<button title="cerrar Ticket" class="btn btn-danger"><span class="icon-lock"></span> Cerrar Ticket</button>
+	</form>
+			
+				<div class="box span6">
 					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon edit"></i><span class="break"></span>Datos del Solicitante</h2>
+						<h2><i class="halflings-icon user"></i><span class="break"></span>Datos del Solicitante</h2>
 						
 					</div>
 					<div class="box-content">
-						<form class="form-horizontal" method="POST" action="acciones/agregarUsuario.php">
-							<fieldset>
-							  <div class="control-group">
-								<label class="control-label">id Usuario</label>
-								<div class="controls">
-								  <span class="input-small uneditable-input">3</span><label class="control-label" for="username">Username</label>
-								</div>
-								
-								<div class="controls">
-								  <input class="input-normal " id="username" name="username" type="text" placeholder="Nick de Usuario">
-								</div>
-								</div>
-							  <div class="control-group">
-								<label class="control-label" for="username">Username</label>
-								<div class="controls">
-								  <input class="input-normal " id="username" name="username" type="text" placeholder="Nick de Usuario">
-								</div>
-							  </div>
-
-							    <div class="control-group">
-								<label class="control-label" for="nombre">Nombre(s)</label>
-								<div class="controls">
-								  <input class="input-xlarge " id="nombre" name="nombre" type="text" placeholder="">
-								</div>
-							  </div>
-
-							    <div class="control-group">
-								<label class="control-label" for="apellidoP">Apellido Paterno</label>
-								<div class="controls">
-								  <input class="input-xlarge " id="apellidoP" name="apellidoP" type="text" placeholder="">
-								</div>
-							  </div>
+						<table class="table">
+						<tr>
+						<th>Username:</th><td><?php echo $username;  ?></td>
+						</tr><tr>
+						<th>Nombre del Solicitante:</th><td><?php echo $nombre;  ?></td>
+						</tr><tr>
+						<th>Area</th><td><?php echo $area;  ?></td>
+						</tr>
+						<tr><th>Correo:</th><td><?php echo $correo;  ?></td>
+						</tr>
 							
-							  <div class="control-group">
-								<label class="control-label" for="apellidoM">Apellido Materno</label>
-								<div class="controls">
-								  <input class="input-xlarge " id="apellidoM" name="apellidoM" type="text" placeholder="">
-								</div>
-							  </div>
+						</table>
+						</div>
+				</div><!--/span-->
+		
+
+
+
+				<div class="box span6">
+					<div class="box-header" data-original-title>
+						<h2><i class="halflings-icon edit"></i><span class="break"></span>Datos del Ticket</h2>
+						
+					</div>
+					<div class="box-content">
+						<table class="table">
+						<tr>
+						<th>Num. de Folio:</th><td><?php echo $folioTicket;  ?></td>
+						</tr><tr>
+						<th>Fecha de Reporte:</th><td><?php echo $fechainicio;  ?></td><th>Fecha de Finalizacion:</th><td><?php echo $fechaFinal;  ?></td>
+						</tr><tr>
+						<th>Tipo de Incidencia</th><td><?php echo $tipo;  ?></td><th>Estatus: </th><td><?php echo $status;  ?></td>
+						</tr>
+						<th>Descripcion del Problema:</th><td colspan="3"><?php echo $descripcion;  ?></td>
 							
-							  <div class="control-group">
-							  <label class="control-label" for="date01">Fecha de Nacimiento</label>
-							  <div class="controls">
-								<input type="text" class="input-xlarge datepicker" id="nacimiento" value="01/01/2015" name="nacimiento">
-							  </div>
-							</div>
-
-							  <div class="control-group">
-								<label class="control-label" for="Correo">Correo</label>
-								<div class="controls">
-								  <input class="input-large " id="email" name="email" type="email" placeholder="">
-								</div>
-							  </div>
-
-							  <div class="control-group">
-								<label class="control-label" for="password">Contraseña</label>
-								<div class="controls">
-								  <input class="input-large " id="password" name="password" type="text" placeholder="">
-								</div>
-							  </div>
-
-							   <div class="control-group">
-								<label class="control-label" for="extencion">Numero de Extencion</label>
-								<div class="controls">
-								  <input class="input-small " id="ext" name="ext" maxlength="5" type="text" placeholder="">
-								</div>
-							  </div>
-
-							  <div class="control-group">
-								<label class="control-label" for="selectError3">Area a la que pertenece</label>
-								<div class="controls">
-								  <select id="area" name="area">
-									<option value="Direccion">Direccion</option>
-									<option value="UPPI">Unidad de Proteccion Intelectual</option>
-									<option value="UPAJC">Unidad de Asuntos Penales</option>
-									<option value="CYC">Convenios y Contratos</option>
-									<option value="Personal">Personal</option>
-								  </select>
-								</div>
-							  </div>
-							  <hr>
-
-							  <div class="control-group">
-								<label class="control-label" for="rol">Rol de Usuario</label>
-								<div class="controls">
-								  <select id="rol" name="rol" data-rel="chosen">
-									<option value="2">Admin</option>
-									<option value="3">Usuario</option>
-								</select>
-								</div>
-							  </div>
-							 
-							  <div class="form-actions">
-								<button type="submit" class="btn btn-primary">Guardar Usuario</button>
-								<button class="btn">Cancelar</button>
-							  </div>
-							</fieldset>
-						  </form>
+						</table>
 					
 					</div>
 				</div><!--/span-->
+
+				<br>
+<div class="clearfix"></div>
+
+					<hr>
+				<div class="span12 noMarginLeft">
+					
+					<div class="message dark">
+					<div class="header">
+					<h1>"Comentarios del Ticket"</h1>
+					</div>
+							<?php
+							$coneccion = mysql_connect('127.0.0.1', 'root', '');
+						mysql_select_db('crm') or die("Error conectando a la BBDD"); 
+
+						$sql = mysql_query("SELECT *
+						FROM comentarios 
+						INNER JOIN tickets
+						INNER JOIN usuario 
+						WHERE tickets.folio = comentarios.folioT
+						AND usuario.idUsuario = comentarios.idUs
+						AND tickets.folio =  '$folio' ") or die (mysql_error());
+
+						while($datos = mysql_fetch_array($sql)){
+							  ?>
+						<div class="header">
+							
+
+					
+
+							<div class="from"><i class="halflings-icon user"></i> <b><?php echo $datos["usuario"];  ?></b> / <?php echo $datos["area"];  ?> </div>
+							<div class="date"><i class="halflings-icon time"></i>  <b><?php echo $datos["fecha"];  ?></b> / <?php echo $datos["hora"];  ?></div>
+							
+							<div class="menu"></div>
+							
+						</div>
+						
+						<div class="content">
+							<p>
+							<?php echo $datos["texto"];  ?>								
+							</p>
+							
+								
+						</div>
+
+
+						<?php } mysql_close(); ?>
+						
+						
+						<form class="replyForm"method="post" action="acciones/enviarMensaje.php">
+
+							<fieldset>
+								<input type="hidden" name="folio" value=<?php echo '"' . $folioTicket . '"';  ?>>
+								<input type="hidden" name="idUsuario" value=<?php echo '"' . $user . '"';  ?>>
+								<textarea tabindex="3" class="input-xlarge span9" id="mensaje" name="mensaje" rows="3" placeholder="Mandar Mensaje"></textarea>
+
+								<div class="actions">
+									
+									<button tabindex="3" type="submit" class="btn btn-success">Enviar Mensaje</button>
+									
+								</div>
+
+							</fieldset>
+
+						</form>	
+						
+					</div>	
+					
+				</div>
+				
+						
+			</div>
+
+
 			
-			</div><!--/row-->
 			
 	<!-- fin de la app-->
 		<!-- start: JavaScript-->

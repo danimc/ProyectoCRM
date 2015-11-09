@@ -344,7 +344,7 @@ $id = $_SESSION["usuario"];
 
 	<br>
 	<!-- inicio de la app-->
-	<h2 align="center">Panel de Control de Usuarios</h2><br>
+	<h2 align="center">incidencias Actuales</h2><br>
 	
 		<div class="row-fluid">	
 				<div class="box span12">
@@ -352,20 +352,9 @@ $id = $_SESSION["usuario"];
 						<h2><i class="halflings-icon hand-top"></i><span class="break"></span>Controles</h2>
 					</div>
 					<div class="box-content">
-						
+			
 
-						<a class="quick-button-small span1" href="nuevoUsuario.php">
-							<i class="icon-user"></i>
-							<p>Nuevo Usuario</p>
-							
-						</a>
-						<a class="quick-button-small span1" href="nuevoRol.php">
-							<i class="icon-random"></i>
-							<p>roles</p>
-							
-						</a>
-
-						<a  class="quick-button-small span1" href="inicio.php">
+						<a  class="quick-button-small span1" href="menuCliente.html">
 							<i class="icon-arrow-left"></i>
 							<p>Regresar</p>
 							
@@ -393,30 +382,25 @@ $id = $_SESSION["usuario"];
 						<table class="table table-striped table-bordered bootstrap-datatable datatable">
 						  <thead>
 							  <tr>
-							  	  <th>Id Usuario</th>	
-								  <th>Username</th>
-								  <th>Nombre(s)</th>
-								  <th>Apellido Paterno</th>
-								  <th>Apellido Materno</th>
-								  <th>Fecha de Nacimiento</th>
-								  <th>Correo</th>
-								  <th>extencion</th>
-								  <th>area</th>
-								  <th>rol</th>
-								  <th>Password</th>
-								  <th>Acciones</th>
+							  	  <th>Folio</th>	
+								  <th>Fecha Inicio</th>
+								  <th>Hora Inicio</th>
+								  <th>Fecha Fin</th>
+								  <th>Hora Fin</th>
+								  <th>Tipo</th>
+								  <th>Descripción</th>
+								  <th>Estado</th>
 							  </tr>
 						  </thead>   
 						  <tbody>
 						  <!--SQL de los ticktes -->
 						<?php
-						 $coneccion = mysql_connect('127.0.0.1', 'root', '');
-						mysql_select_db('crm') or die("Error conectando a la BBDD"); 
+						 $coneccion = mysql_connect('sql13.000webhost.com', 'a2743071_vergil', 'devil20');
+						mysql_select_db('a2743071_prueba') or die("Error conectando a la BBDD"); 
 
 						$sql = mysql_query("SELECT *
-						FROM usuario 
-						INNER JOIN rol 
-						WHERE rol.id = usuario.rol") or die (mysql_error());
+						FROM tickets 
+						") or die (mysql_error());
 
 						while($datos = mysql_fetch_array($sql)){
 														
@@ -430,10 +414,7 @@ $id = $_SESSION["usuario"];
 								<td><?php echo $datos[5];?></td>
 								<td class="center"><?php echo $datos[6];?></td>
 								<td><?php echo $datos[8];?></td>
-								<td><?php echo $datos[9];?></td>
 								<td class="center"><?php echo $datos[7];?></td>
-								<td class="center"><?php echo $datos[12];?></td>
-								<td><?php echo $datos[2];?></td>
 								<td class="center">
 									<a class="btn btn-info" href="#" title="Editar">
 										<i class="halflings-icon white edit"></i>  

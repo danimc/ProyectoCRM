@@ -354,7 +354,7 @@ $id = $_SESSION["usuario"];
 					<div class="box-content">
 						
 
-						<a class="quick-button-small span1" href="nuevoUsuario.php">
+						<a class="quick-button-small span1" href="cliente/altaTicket.php">
 							<i class="icon-file	"></i>
 							<p>Nuevo Ticket</p>
 							
@@ -429,19 +429,23 @@ $id = $_SESSION["usuario"];
 								<td class="center"><?php  echo $datos[7];?></td>
 								<td><?php echo $datos[8];?></td>
 							
-								<td class="center">
-									<a class="btn btn-info" href="seguimientoTicket.php" title="Abrir">
-										<i class="halflings-icon white info-sign"></i>  
-									</a>
-									<a class="btn btn-info" href="#" title="Editar">
-										<i class="halflings-icon white edit"></i>  
-									</a>
-										<a class="btn btn-success" href="#" title="Terminar Ticket">
-										<i class="halflings-icon white ok"></i>  
-									</a>
-									<a class="btn btn-danger" href="#" title="Eliminar">
-										<i class="halflings-icon white trash"></i> 
-									</a>
+								<td align="center">
+								<form method="POST" action="seguimientoTicket.php">
+									<input type="hidden" name="folio" value=<?php echo '"'.$datos[0].'"';  ?>>
+									<button  title="Revisar Ticket" class="btn btn-info"  type="submit" name="1" ><span class="halflings-icon white info-sign"></span></button>
+								</form>
+								</td>
+							
+
+								<td>
+									
+									<form name="cerrarTicket" method="POST" action="acciones/cerrarTicket.php">
+									<input type="hidden" name="ticket" value=<?php echo '"'.$datos[0].'"';  ?>>
+									<button  title="Cerrar Ticket" class="btn btn-danger"  type="submit" name="1" ><span class="icon-lock"></span></button>
+								</form>
+								</td>
+								<td>
+									
 								</td>
 							</tr>
 

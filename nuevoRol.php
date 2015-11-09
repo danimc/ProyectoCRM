@@ -344,119 +344,35 @@ $id = $_SESSION["usuario"];
 
 	<br>
 	<!-- inicio de la app-->
-	<h2 align="center">Panel de Control de Usuarios</h2><br>
+	<h2 align="center">Agregar Nuevo Usuario</h2><br>
 	
-		<div class="row-fluid">	
-				<div class="box span12">
-					<div class="box-header">
-						<h2><i class="halflings-icon hand-top"></i><span class="break"></span>Controles</h2>
-					</div>
-					<div class="box-content">
-						
-
-						<a class="quick-button-small span1" href="nuevoUsuario.php">
-							<i class="icon-user"></i>
-							<p>Nuevo Usuario</p>
-							
-						</a>
-						<a class="quick-button-small span1" href="nuevoRol.php">
-							<i class="icon-random"></i>
-							<p>roles</p>
-							
-						</a>
-
-						<a  class="quick-button-small span1" href="inicio.php">
-							<i class="icon-arrow-left"></i>
-							<p>Regresar</p>
-							
-						</a>
-						
-						
-						<div class="clearfix"></div>
-					</div>	
-				</div><!--/span-->
-				
-			</div><!--/row-->
-			
-
-	<div class="row-fluid sortable">		
+			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon user"></i><span class="break"></span>Usuarios</h2>
-						<div class="box-icon">
-							<a href="#" class="btn-setting"><i class="halflings-icon wrench"></i></a>
-							<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon remove"></i></a>
-						</div>
+						<h2><i class="halflings-icon edit"></i><span class="break"></span>Formulario de Registro</h2>
+						
 					</div>
 					<div class="box-content">
-						<table class="table table-striped table-bordered bootstrap-datatable datatable">
-						  <thead>
-							  <tr>
-							  	  <th>Id Usuario</th>	
-								  <th>Username</th>
-								  <th>Nombre(s)</th>
-								  <th>Apellido Paterno</th>
-								  <th>Apellido Materno</th>
-								  <th>Fecha de Nacimiento</th>
-								  <th>Correo</th>
-								  <th>extencion</th>
-								  <th>area</th>
-								  <th>rol</th>
-								  <th>Password</th>
-								  <th>Acciones</th>
-							  </tr>
-						  </thead>   
-						  <tbody>
-						  <!--SQL de los ticktes -->
-						<?php
-						 $coneccion = mysql_connect('127.0.0.1', 'root', '');
-						mysql_select_db('crm') or die("Error conectando a la BBDD"); 
-
-						$sql = mysql_query("SELECT *
-						FROM usuario 
-						INNER JOIN rol 
-						WHERE rol.id = usuario.rol") or die (mysql_error());
-
-						while($datos = mysql_fetch_array($sql)){
-														
-						?>
-
-							<tr>
-								<td><?php echo $datos[0];?></td>
-								<td><?php echo $datos[1];?></td>
-								<td><?php echo $datos[3];?></td>
-								<td><?php echo $datos[4];?></td>
-								<td><?php echo $datos[5];?></td>
-								<td class="center"><?php echo $datos[6];?></td>
-								<td><?php echo $datos[8];?></td>
-								<td><?php echo $datos[9];?></td>
-								<td class="center"><?php echo $datos[7];?></td>
-								<td class="center"><?php echo $datos[12];?></td>
-								<td><?php echo $datos[2];?></td>
-								<td class="center">
-									<a class="btn btn-info" href="#" title="Editar">
-										<i class="halflings-icon white edit"></i>  
-									</a>
-									<a class="btn btn-danger" href="#" title="Eliminar">
-										<i class="halflings-icon white trash"></i> 
-									</a>
-								</td>
-							</tr>
-
-						<?php } ?>
-
-						  </tbody>
-					  </table>            
+						<form class="form-horizontal" method="POST" action="acciones/agregarRol.php">
+							<fieldset>
+							  <div class="control-group">
+								<label class="control-label">Nombre del Rol</label>
+								<div class="controls">
+								  <input type="text" name="rol">
+								</div>
+								
+							 
+							  <div class="form-actions">
+								<button type="submit" class="btn btn-primary">Guardar Rol</button>
+								<button class="btn">Cancelar</button>
+							  </div>
+							</fieldset>
+						  </form>
+					
 					</div>
 				</div><!--/span-->
 			
 			</div><!--/row-->
-
-
-
-								
-		
 			
 	<!-- fin de la app-->
 		<!-- start: JavaScript-->
